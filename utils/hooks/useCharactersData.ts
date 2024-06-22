@@ -87,7 +87,7 @@ const getCharacters = async ({
     page: pageParam,
   };
 
-  const response = await axios.get('http://swapi.dev/api/people', { params });
+  const response = await axios.get('https://swapi.dev/api/people/', { params });
 
   const nextPage = response.data.next ? <number>pageParam + 1 : undefined;
 

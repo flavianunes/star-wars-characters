@@ -1,9 +1,9 @@
 const CharacterListLoading = () => {
   return Array.from(Array(10)).map((_, i) => (
-    <div key={i} className="w-full animate-pulse">
+    <div key={i} data-testid="loading" className="w-full animate-pulse">
       <div className="bg-gray-extra-light w-full h-57 rounded">
         <svg
-          className="w-4 h-4 text-gray-extra-light"
+          className="w-4 h-4 text-gray-extra-light z-10"
           aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"
           fill="currentColor"
