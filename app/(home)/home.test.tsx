@@ -1,42 +1,35 @@
 import '@testing-library/jest-dom/vitest';
-
-import { render, screen, waitFor, fireEvent, userEvent } from '@/test/utils';
+import {
+  render,
+  screen,
+  waitFor,
+  waitForElementToBeRemoved,
+  userEvent,
+} from '@/test/utils';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import axios from 'axios';
 import Page from './page';
-
-const PLANETS_URL = 'https://swapi.dev/api/planets/';
-const CHARACTER_URL = 'https://swapi.dev/api/people/1/';
-const CHARACTERS_URL = 'https://swapi.dev/api/people/';
+import {
+  PLANETS_URL,
+  PLANETS_DATA,
+  CHARACTERS_URL,
+  CHARACTERS_DATA,
+  CHARACTER_URL,
+  CHARACTER_DATA,
+} from '@/test/constants';
 
 vi.mock('axios');
 
 describe('CharacterList', () => {
   beforeEach(async () => {
-    vi.mocked(axios.get).mockImplementation((url, config) => {
+    vi.mocked(axios.get).mockImplementation((url) => {
       switch (url) {
         case PLANETS_URL:
-          return Promise.resolve({
-            data: {
-              results: [
-                { name: 'Tatooine', residents: [] },
-                {
-                  name: 'Naboo',
-                  residents: [CHARACTER_URL],
-                },
-              ],
-            },
-          });
+          return Promise.resolve(PLANETS_DATA);
         case CHARACTERS_URL:
-          return Promise.resolve({
-            data: {
-              results: [{ name: 'Luke Skywalker' }, { name: 'R2-D2' }],
-            },
-          });
+          return Promise.resolve(CHARACTERS_DATA);
         case CHARACTER_URL:
-          return Promise.resolve({
-            data: { name: 'Clara' },
-          });
+          return Promise.resolve(CHARACTER_DATA);
         default:
           return Promise.reject(new Error('error message'));
       }
@@ -74,5 +67,21 @@ describe('CharacterList', () => {
     await userEvent.selectOptions(screen.getByRole('combobox'), 'Tatooine');
     expect(screen.getByRole('combobox')).toHaveValue('0');
     expect(screen.getByText('No characters were found.')).toBeInTheDocument();
+  });
+
+  it('should load more characters when clicking load more', async () => {
+    await waitForElementToBeRemoved(() => screen.queryAllByTestId('loading'));
+    await userEvent.click(screen.getByRole('button', { name: /load more/i }));
+    expect(axios.get).toHaveBeenCalledWith(CHARACTERS_URL, {
+      params: { page: 2 },
+    });
+    expect(screen.getAllByRole('img').length).toBe(4);
+  });
+
+  it('should display error message when request fails', async () => {
+    await waitForElementToBeRemoved(() => screen.queryAllByTestId('loading'));
+    vi.mocked(axios.get).mockRejectedValue(new Error('error message'));
+    await userEvent.click(screen.getByRole('button', { name: /load more/i }));
+    expect(screen.getByText('error message')).toBeInTheDocument();
   });
 });

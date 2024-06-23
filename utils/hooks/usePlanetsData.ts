@@ -1,6 +1,5 @@
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import { TCharacter } from './useCharactersData';
 
 export type TPlanet = {
   name: string;

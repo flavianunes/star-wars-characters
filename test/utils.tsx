@@ -8,7 +8,13 @@ import { TestProviders } from './provider';
 
 export { userEvent } from '@testing-library/user-event';
 
-export { screen, waitFor, renderHook, fireEvent } from '@testing-library/react';
+export {
+  screen,
+  waitFor,
+  waitForElementToBeRemoved,
+  renderHook,
+  fireEvent,
+} from '@testing-library/react';
 
 export const render = (
   ui: ReactElement,
