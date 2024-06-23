@@ -2,6 +2,8 @@
 
 This project is built with Next.js and deployed with Vercel.
 
+https://star-wars-characters-olive.vercel.app
+
 ![GitHub deployments](https://img.shields.io/github/deployments/flavianunes/star-wars-characters/production?label=Deploy)
 
 ## Functionality
