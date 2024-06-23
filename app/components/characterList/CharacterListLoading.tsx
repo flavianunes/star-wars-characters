@@ -1,9 +1,9 @@
 const CharacterListLoading = () => {
   return Array.from(Array(10)).map((_, i) => (
     <div key={i} data-testid="loading" className="w-full animate-pulse">
-      <div className="bg-gray-extra-light w-full h-57 rounded">
+      <div className="flex items-center bg-gray-extra-lighter w-full h-57 rounded">
         <svg
-          className="w-4 h-4 text-gray-extra-light z-10"
+          className="w-full h-10 text-gray z-10"
           aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"
           fill="currentColor"
@@ -14,11 +14,11 @@ const CharacterListLoading = () => {
       </div>
       <div
         aria-hidden="true"
-        className="h-7 bg-gray-extra-light rounded w-48 my-4 mb-3 "
+        className="h-7 bg-gray-extra-lighter rounded w-48 my-4 mb-3 "
       />
       <div
         aria-hidden="true"
-        className="h-12 bg-gray-extra-light rounded max-w-[360px] "
+        className="h-12 bg-gray-extra-lighter rounded max-w-[360px] "
       />
       <p className="sr-only">Loading</p>
     </div>

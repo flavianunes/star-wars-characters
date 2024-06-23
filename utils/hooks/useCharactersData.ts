@@ -37,7 +37,6 @@ export function useCharactersData(planet?: TPlanet) {
     error: filteredError,
   } = useFilteredData(planet);
 
-  console.log({ filteredCharactersData });
   const isPending =
     isCharactersPending || isFilteredPending || isFetchingNextPage;
   const isError = isCharactersError || isFilteredError;
@@ -64,7 +63,6 @@ export function useCharactersData(planet?: TPlanet) {
 }
 
 export const useFilteredData = (planet?: TPlanet) => {
-  console.log({ planet });
   return useQuery<TCharacter[], Error>({
     queryKey: ['filteredCharacters', planet],
     queryFn: () => getResidents(planet?.residents ?? []),
@@ -106,6 +104,5 @@ export const getCharacter = async (url: string): Promise<TCharacter> => {
 
 export const getResidents = async (residents: string[]) => {
   const data = await Promise.all(residents.map((url) => getCharacter(url)));
-  console.log({ residents, data });
   return data;
 };
